@@ -78,3 +78,4 @@ e = (c**d) % N
 print("\ne = c hoch d (modulo von N)")
 print(str(e) + " ist " + str(c) + " hoch " + str(d) + " (modulo " + str(N) + ")")
 print("\nDer entschlüsselte Wert ist: " + chr(e))
+input()
