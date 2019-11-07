@@ -1,6 +1,9 @@
 import math
+from tkinter import *
+# from appJar import gui
 
-def EnoughSpaceBetween(x,y):
+
+def EnoughSpaceBetween(x, y):
     if x > y:
         if 0.1 < math.log2(x) - math.log2(y) < 30:
             return  True
@@ -21,9 +24,11 @@ def modernEuklidischerAlgo(a, b):
     else:
         return modernEuklidischerAlgo(b, a % b)
 
-# ICh weiss nicht wie ich das machen soll habe einfach auf dem Internet kopiert
+
+# Ich weiss nicht wie ich das machen soll habe einfach auf dem Internet kopiert
 def expandedEuklidischerAlgo(Phi, e):
     return null
+
 
 def extgcd(a, b):
     if b == 0:
@@ -34,22 +39,29 @@ def extgcd(a, b):
         return g, v, u - q * v
 
 
-def isPrim(p, x):
+def isprim(p, x):
     while(x < p):
         if p % x == 0:
-           return False;
+           return False
         x = x + 1
     print(x)
     return True
 
 
+# app = gui()
+# master = Tk(screenName=ACTIVE)
+# c = Canvas(master, width=200, height=200)
+# c.pack()
+# c.create_rectangle(50, 50, 150, 150, fill="blue")
+# mainloop()
+
 print("RSA verfahren")
 while True:
-    p = int(input("1. Primzalh eingeben: "))
-    if not isPrim(p, 2):
+    p = int(input("1. Primzahl eingeben: "))
+    if not isprim(p, 2):
         continue
-    q = int(input("2. Primzalh eigeben: "))
-    if not isPrim(q, 2):
+    q = int(input("2. Primzahl eingeben: "))
+    if not isprim(q, 2):
         continue
     if EnoughSpaceBetween(p, q):
         N = p * q
@@ -57,25 +69,29 @@ while True:
         if int(math.log(N, 10)+1) >= 6:
             break
 
-
 Phi = (p - 1) * (q - 1)
 while True:
     e = int(input("Eine teilerfremde Zahl zu " + str(Phi) + " eingeben: "))
     if modernEuklidischerAlgo(Phi, e):
-        break
+        (x, y, d) = extgcd(Phi, e)
+        if d > 0:
+            break
 
-(x, y, d) = extgcd(Phi, e)
+# Ich verstehe nicht ganz wann e valid ist und wann e nicht funktioniert
+
 
 print("\nDer öffentliche Schlüssel ist e = " + str(e) + " und N = " + str(N))
 print("Der private Schlüssel ist d = " + str(d) + " und N = " + str(N))
 
 m = input("\nBuchstabe eingeben: ")
+
 c = (ord(m)**e) % N
-print("\nc = ascii von m hoch e (modulo von N)")
+print("\nc = ascii von " + m + " hoch e (modulo von N)")
 print(str(c) + " = " + str(ord(m)) + " hoch " + str(e) + " (modulo " + str(N) + ")")
 print("Der Verschlüsselte Wert von der eingabe " + m + " ist: " + str(c))
-e = (c**d) % N
+
+erg = (c**d) % N
 print("\ne = c hoch d (modulo von N)")
-print(str(e) + " ist " + str(c) + " hoch " + str(d) + " (modulo " + str(N) + ")")
-print("\nDer entschlüsselte Wert ist: " + chr(e))
-input()
+print(str(erg) + " ist " + str(c) + " hoch " + str(d) + " (modulo " + str(N) + ")")
+print("Der entschlüsselte Wert ist: " + chr(erg))
+input("Waiting ...")
